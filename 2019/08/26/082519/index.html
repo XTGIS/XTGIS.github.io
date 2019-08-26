@@ -1,0 +1,125 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta name="generator" content="Hexo 3.9.0"><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>使用ArcMap进行简单的数据分析（IDW） | 星图地信</title><meta name="description" content="ArcGIS基础教程：Step by step 从导入Excel到Arcmap中开始，手把手教你分析坐标数据"><meta name="keywords" content="GIS,ArcMap"><meta name="author" content="星图地信"><meta name="copyright" content="星图地信"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/font-awesome@latest/css/font-awesome.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><meta http-equiv="x-dns-prefetch-control" content="on"><link rel="canonical" href="http://yoursite.com/2019/08/26/082519/"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="使用ArcMap进行简单的数据分析（IDW）"><meta name="twitter:description" content="ArcGIS基础教程：Step by step 从导入Excel到Arcmap中开始，手把手教你分析坐标数据"><meta name="twitter:image" content="http://i2.tiimg.com/696100/4ffcda247c57afc0.pngtems-gis-678x322.png"><meta property="og:type" content="article"><meta property="og:title" content="使用ArcMap进行简单的数据分析（IDW）"><meta property="og:url" content="http://yoursite.com/2019/08/26/082519/"><meta property="og:site_name" content="星图地信"><meta property="og:description" content="ArcGIS基础教程：Step by step 从导入Excel到Arcmap中开始，手把手教你分析坐标数据"><meta property="og:image" content="http://i2.tiimg.com/696100/4ffcda247c57afc0.pngtems-gis-678x322.png"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="next" title="Overview of Programming Languages for GIS" href="http://yoursite.com/2019/08/18/Overview-of-Programming-Languages-for-GIS/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容:${query}"}},
+  translate: undefined,
+  highlight_copy: 'true',
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    title: '添加书签',
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天'
+
+  
+}</script></head><body><i class="fa fa-arrow-right" id="toggle-sidebar" aria-hidden="true"></i><div class="auto_open" id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar"></div></div><div class="sidebar-toc__content"></div></div></div><div id="content-outer"><div id="top-container" style="background-image: url(http://i2.tiimg.com/696100/4ffcda247c57afc0.pngtems-gis-678x322.png)"><div id="page-header"><span class="pull-left"> <a class="blog_title" id="site-name" href="/">星图地信</a></span><div class="open toggle-menu pull-right"><div class="menu-icon-first"></div><div class="menu-icon-second"></div><div class="menu-icon-third"></div></div><span class="pull-right menus"><div class="mobile_author_icon"><img class="lozad" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'"><div class="mobile_author-info__description">GIS and more</div></div><hr><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fa fa-home"></i><span> 主页</span></a><a class="site-page" href="/archives/"><i class="fa-fw fa fa-archive"></i><span> 归档</span></a><a class="site-page" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a><a class="site-page" href="/categories/"><i class="fa-fw fa fa-folder-open"></i><span> 分类</span></a><a class="site-page" href="/link/"><i class="fa-fw fa fa-link"></i><span> 资源</span></a><a class="site-page" href="/about/"><i class="fa-fw fa fa-heart"></i><span> 关于</span></a><script>document.body.addEventListener('touchstart', function(){ });</script></div></span><span class="pull-right"><a class="site-page social-icon search"><i class="fa fa-search fa-fw"></i><span> 搜索</span></a></span></div><div id="post-info"><div id="post-title"><div class="posttitle">使用ArcMap进行简单的数据分析（IDW）</div></div><div id="post-meta"><time class="post-meta__date"><i class="fa fa-calendar" aria-hidden="true"></i> 发表于 2019-08-26<span class="post-meta__separator">|</span><i class="fa fa-history" aria-hidden="true"></i> 更新于 2019-08-27</time></div></div></div><div class="layout layout_post" id="content-inner">   <article id="post"><div class="article-container" id="post-content"><p>使用ArcMap分析Excel格式的坐标数据</p>
+<p>1.导入Excel数据</p>
+<p>方法：先添加需要导入的Excel所在的文件夹路径，再导入Excel</p>
+<img data-src="http://i2.tiimg.com/696100/dac101a24b1e236b.png" class="lozad">
+
+<p>然后会出现下面的窗口：这一步是链接文件夹</p>
+<img data-src="http://i2.tiimg.com/696100/ce1c456699f12452.png" class="lozad">
+点击之后选择需要添加的数据所在的文件夹路径：
+
+<img data-src="http://i2.tiimg.com/696100/4d0b8253571d3223.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/143aca23721c6341.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/24ec8dd50bb67bcb.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/084458a504e5960a.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/58ced8e49e0337c2.png" class="lozad">
+
+<p>(Arcmap10.2 打开.xlsx格式的Excel比较麻烦，直接另存为.xls就可以直接导入了)</p>
+<img data-src="http://i2.tiimg.com/696100/97759afc6bde5840.png" class="lozad">
+
+<p><code>导入Excel格式应该07~03xml，另存就可以改格式</code></p>
+<p>导入文件之后再导入文件里面的数据，选择一个sheet：右键内容栏里面导入的数据，在右键菜单里面选择Data→Export  </p>
+<img data-src="http://i2.tiimg.com/696100/f14708937edf9e99.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/cb53d97c22fd1409.png" class="lozad">
+
+<p>4.展点：导入的数据的右键菜单：display x，y</p>
+<img data-src="http://i2.tiimg.com/696100/ddff58fa9e209850.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/fc42d85bd04a5a74.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/4f1021e51d166e57.png" class="lozad">
+
+
+
+
+
+<img data-src="http://i2.tiimg.com/696100/599a6ba8ee9784c8.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/135d5d14bb443c23.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/1314a1ea948c80b4.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/a3d08b99d0980b13.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/8053bb74b88b6c77.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/aaade5a5b188633f.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/ceb6422cb73f7b0a.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/6744bd02584e8eb4.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/441ac94d9a6d7eae.png" class="lozad">
+
+<p>上图就是完成数量分析的坐标图，也可以添加底图</p>
+<img data-src="http://i2.tiimg.com/696100/b8b7d15d42becb2c.png" class="lozad">
+
+
+
+<p>如果要添加底图，需要先设置图层（Layers）的坐标系：</p>
+<img data-src="http://i2.tiimg.com/696100/dcb5eed016cd4538.png" class="lozad">
+
+
+<img data-src="http://i2.tiimg.com/696100/d3b538767913dbc3.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/5f27644887966079.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/7f786d277d3c0b79.png" class="lozad">
+
+
+
+<p>好了，下面进行空间分析</p>
+<img data-src="http://i2.tiimg.com/696100/14f90adf4da660a5.png" class="lozad">
+
+<hr>
+<p>analysis tool 权限问题：解决方法如下：</p>
+<img data-src="http://i2.tiimg.com/696100/2f8974a5a956134d.png" class="lozad">
+
+<img data-src="http://i2.tiimg.com/696100/d3917630363afc19.png" class="lozad">
+
+<hr>
+<img data-src="http://i2.tiimg.com/696100/f580e1fdc0a070eb.png" class="lozad">
+
+
+
+
+<img data-src="http://i2.tiimg.com/696100/657bad878e51b5ab.png" class="lozad">
+
+
+
+<img data-src="http://i2.tiimg.com/696100/bf6f100d31831daa.png" class="lozad">
+
+
+
+<img data-src="http://i2.tiimg.com/696100/82e89f44b5800300.png" class="lozad">
+
+
+
+<p>得到分析结果：红色部分就是地面比较脏的区域。<br><img data-src="http://i2.tiimg.com/696100/19ce3f5c5e1c773a.png" class="lozad"></p>
+<p>以上就是一个简单的坐标分析的完整步骤，当然你还可以尝试 Toolboxes 里面更多的分析工具，详情参考ArcMap官方文档<a href="http://desktop.arcgis.com/zh-cn/arcmap/10.3/tools/spatial-analyst-toolbox/an-overview-of-the-spatial-analyst-toolbox.htm" target="_blank" rel="noopener">Spatial Analyst 工具箱</a>.</p>
+</div></article><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/GIS/">GIS    </a><a class="post-meta__tags" href="/tags/ArcMap/">ArcMap    </a></div><div class="post_share"><div class="social-share" data-image="http://i2.tiimg.com/696100/4ffcda247c57afc0.pngtems-gis-678x322.png" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/css/share.min.css"><script src="https://cdn.jsdelivr.net/npm/social-share.js@1.0.16/dist/js/social-share.min.js"></script></div></div><nav class="pagination_post" id="pagination"><div class="next-post pull-full"><a href="/2019/08/18/Overview-of-Programming-Languages-for-GIS/"><img class="next_cover lozad" data-src="http://i1.fuimg.com/696100/b1f47fa933697592.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="label">下一篇</div><div class="next_info"><span>Overview of Programming Languages for GIS</span></div></a></div></nav><div class="relatedPosts"><div class="relatedPosts_headline"><i class="fa fa-fw fa-thumbs-up" aria-hidden="true"></i><span> 相关推荐</span></div><div class="relatedPosts_list"><div class="relatedPosts_item"><a href="/2019/08/18/Overview-of-Programming-Languages-for-GIS/" title="Overview of Programming Languages for GIS"><img class="relatedPosts_cover lozad" data-src="http://i1.fuimg.com/696100/b1f47fa933697592.jpg"><div class="relatedPosts_title">Overview of Programming Languages for GIS</div></a></div><div class="relatedPosts_item"><a href="/2019/08/11/What-s-GIS/" title="What's GIS"><img class="relatedPosts_cover lozad" data-src="https://gisgeography.com/wp-content/uploads/2014/07/what-is-geographic-information-systems-gis-678x322.png"><div class="relatedPosts_title">What's GIS</div></a></div></div><div class="clear_both"></div></div></div></div><footer><div class="layout" id="footer"><div class="copyright">&copy;2018 - 2019 By 星图地信</div><div class="framework-info"><span>驱动 </span><a href="http://hexo.io"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly"><span>Butterfly</span></a></div></div></footer><i class="fa fa-arrow-up" id="go-up" aria-hidden="true"></i><section class="rightside" id="rightside"><i class="fa fa-book" id="readmode" title="阅读模式"> </i><i class="fa fa-plus" id="font_plus" title="放大字体"></i><i class="fa fa-minus" id="font_minus" title="缩小字体"></i><i class="fa fa-moon-o nightshift" id="nightshift" title="夜间模式"></i></section><div id="post_bottom"><div id="post_bottom_items"><a id="to_comment" href="#post-comment"><i class="scroll_to_comment fa fa-comments"></i></a><i class="fa fa-list" id="mobile_toc"></i><div id="toc_mobile"><div class="toc_mobile_headline">目录</div></div></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script async src="/js/search/local-search.js"></script><script src="/js/nightshift.js"></script><script id="ribbon" src="https://cdn.jsdelivr.net/gh/jerryc127/CDN@latest/js/piao.js"></script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page@1.2.2/instantpage.min.js" type="module"></script><script src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script><script>const observer = lozad(); // lazy loads elements with default selector as '.lozad'
+observer.observe();</script><div class="search-dialog" id="local-search"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="想找点啥呢~`"></div></div></div><hr><div id="local-search-results"><div id="local-hits"></div><div id="local-stats"><div class="local-search-stats__hr" id="hr"><span>由</span> <a href="https://github.com/wzpan/hexo-generator-search" style="color:#49B1F5;">hexo-generator-search</a>
+ <span>提供支持</span></div></div></div><span class="search-close-button"><i class="fa fa-times"></i></span></div><div class="search-mask"></div></body></html>
